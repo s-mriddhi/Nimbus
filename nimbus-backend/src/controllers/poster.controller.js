@@ -68,6 +68,9 @@ underexposed, bad composition, cluttered, messy`;
 const hf = new HfInference(process.env.HF_API_KEY);
 
 export const generatePosterController = async (req, res) => {
+    if (!process.env.HF_API_KEY) {
+        return res.status(503).json({ success: false, message: "Poster generation is only available on the local version." });
+    }
     try {
         const { eventName, category, theme, formData } = req.body;
 

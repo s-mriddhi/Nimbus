@@ -135,7 +135,7 @@ export const resetPasswordController = async (req, res) => {
         await user.save();
         await OtpToken.deleteOne({ _id: otpToken._id });
 
-        const resetLink = "http://localhost:3000/forgot-password";
+        const resetLink = `${process.env.FRONTEND_URL || "http://localhost:3000"}/forgot-password`;
         await sendEmail({ to: email, subject: "Password Changed - Nimbus", html: generatePasswordChangedEmailTemplate(user.name, resetLink), text: `Password changed. If not you, reset: ${resetLink}` });
 
         res.status(200).json({ message: "Password reset successful" });

@@ -6,6 +6,9 @@ import { uploadBufferToCloudinary } from "../utils/cloudinaryHelper.js";
 const hf = new HfInference(process.env.HF_API_KEY);
 
 export const generateLogoController = async (req, res) => {
+    if (!process.env.HF_API_KEY) {
+        return res.status(503).json({ success: false, message: "Logo generation is only available on the local version." });
+    }
     try {
         const { logoName, tagline, category, style, color, iconPreference } = req.body;
 
